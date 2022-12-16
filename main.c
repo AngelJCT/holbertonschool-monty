@@ -1,4 +1,5 @@
 #include "monty.h"
+char **array = NULL;
 /**
  *main-function for entry point
  *@argc: argument count

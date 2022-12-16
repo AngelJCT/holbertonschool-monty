@@ -1,5 +1,4 @@
 #include "monty.h"
-char **array = NULL;
 /**
  *push_opcode-function to push into the stack
  *@stack: pointer to struct
@@ -9,17 +8,9 @@ char **array = NULL;
  */
 void push_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
 {
-	stack_t *newNode;
+	stack_t *newNode = malloc(sizeof(stack_t));
 
-	newNode = malloc(sizeof(stack_t));
-
-	if (newNode == NULL)
-	{
-		fprintf(stderr, "Error: malloc failed\n");
-		exit(EXIT_FAILURE);
-	}
-
-	if (array[1] == NULL || read_arguments(array[1]))
+	if (array[1] == NULL || read_arguments(array[1]) == 0)
 	{
 		fprintf(stderr, "L%u: usage: push integer\n", line_number);
 		free(operators);
@@ -71,7 +62,9 @@ void pint_opcode(stack_t **stack, unsigned int line_number, char *operators, FIL
 	stack_t *h = *stack;
 
 		if (h != NULL)
+		{
 			printf("%d\n", h->n);
+		}
 
 		else if (h == NULL)
 		{
