@@ -7,13 +7,13 @@
 void (*get_op_func(char **array))(stack_t **, unsigned int, char *, FILE *)
 {
 	instruction_t op[] = {
-		{"push", push_opcode},
-		{"pall", pall_opcode},
-		{"pint", pint_opcode},
-		{"pop", pop_opcode},
-		{"swap", pop_opcode},
-		{"add", pop_opcode},
-		{"nop", pop_opcode},
+		{"push", push_op},
+		{"pall", pall_op},
+		{"pint", pint_op},
+		{"pop", pop_op},
+		{"swap", swap_op},
+		{"add", add_op},
+		{"nop", nop_op},
 		{NULL, unknown_func}
 	};
 

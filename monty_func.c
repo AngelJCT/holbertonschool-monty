@@ -1,13 +1,13 @@
 #include "monty.h"
 char **array = NULL;
 /**
- *push_opcode-function to push into the stack
+ *push_op-function to push into the stack
  *@stack: pointer to struct
  *@line_number: number of line of opcode
  *@operators: pointer to line
  *@fd: file opened
  */
-void push_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
+void push_op(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
 {
 	stack_t *newNode = malloc(sizeof(stack_t));
 
@@ -32,13 +32,13 @@ void push_opcode(stack_t **stack, unsigned int line_number, char *operators, FIL
 	*stack = newNode;
 }
 /**
- *pall_opcode-function to print all operator
+ *pall_op-function to print all operator
  *@stack: pointer to struct
  *@line_number: number of line of opcode
  *@operators: pointer to line
  *@fd: file opened
  */
-void pall_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
+void pall_op(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
 {
 	stack_t *h = *stack;
 	(void)operators;
@@ -52,13 +52,13 @@ void pall_opcode(stack_t **stack, unsigned int line_number, char *operators, FIL
 	}
 }
 /**
- *pint_opcode-function to print the head node
+ *pint_op-function to print the head node
  *@stack: pointer to struct
  *@line_number: number of line of opcode
  *@operators: pointer to line
  *@fd: file opened
  */
-void pint_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
+void pint_op(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
 {
 	stack_t *h = *stack;
 

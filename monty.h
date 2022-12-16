@@ -40,13 +40,13 @@ void (*get_op_func(char **array))(stack_t **, unsigned int, char *, FILE *);
 /*function to tokenize*/
 char **tokenization(char *operation, char *delimiter);
 /*functions for opcode instruction*/
-void push_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
-void pall_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
-void pint_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
-void pop_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
-void swap_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
-void add_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
-void nop_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
+void push_op(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
+void pall_op(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
+void pint_op(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
+void pop_op(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
+void swap_op(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
+void add_op(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
+void nop_op(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
 /*function for invalid opcode instruction*/
 void unknown_func(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
 void free_dlist(char **grid);
