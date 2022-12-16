@@ -96,7 +96,7 @@ void add_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE
 		free(operators);
 		free_dlist(array);
 		free_stack(*stack);
-		fclose(file);
+		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
 }
