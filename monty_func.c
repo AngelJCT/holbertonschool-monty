@@ -1,4 +1,5 @@
 #include "monty.h"
+char **array = NULL;
 /**
  *push_opcode-function to push into the stack
  *@stack: pointer to struct
