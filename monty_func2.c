@@ -40,8 +40,10 @@ void pop_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE
  */
 void swap_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
 {
-	stack_t *h = *stack, *body;
-	int hv, bv;
+	stack_t *h = *stack;
+	stack_t *body;
+	int hv;
+	int bv;
 
 	if (h != NULL)
 	{
