@@ -57,3 +57,4 @@ int read_arguments(char *arguments);
 /*global variable*/
 extern char **array;
 #endif
+
