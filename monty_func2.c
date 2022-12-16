@@ -3,84 +3,110 @@
  *pop_opcode-function to remove top element from stack
  *@stack: pointer to struct
  *@line_number: number of line of opcode
+ *@operators: pointer to line
+ *@fd: file opened
  *Return: no return for this function
  */
-void pop_opcode(stack_t **stack, unsigned int line_number)
+void pop_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
 {
-	stack_t *head, *pop;
+	stack_t *h = *stack;
 
-	head = *stack;
-
-	if (head == NULL)
+	if (h != NULL)
 	{
-		fprintf(stderr, "L%d: can't pop an empty stack\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-	else if (head->next == NULL)
-	{
-		pop = head;
-		head = NULL;
-		free(pop);
+		*stack = (*stack)->next;
+		if (*stack != NULL)
+		{
+			(*stack)->prev = NULL;
+		}
+		free(h);
 	}
 	else
 	{
-		pop = head;
-		head = NULL;
-		free(pop);
+		fprintf(stderr, "L%u: can't pop an empty stack\n", line_number);
+		free(operators);
+		free_dlist(array);
+		free_stack(*stack);
+		fclose(fd);
+		exit(EXIT_FAILURE);
 	}
-	*stack = head;
 }
 /**
  *swap_opcode-function to swap the top elements of the stack
  *@stack: pointer to struct
  *@line_number: number of line of opcode
+ *@operators: pointer to line
+ *@fd: file opened
  *Return: no return for this function
  */
-void swap_opcode(stack_t **stack, unsigned int line_number)
+void swap_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
 {
-	stack_t *swap_nodes;
+	stack_t *h = *stack, *body;
+	int hv, bv;
 
-	if (*stack == NULL || (*stack)->next == NULL)
+	if (h != NULL)
 	{
-		fprintf(stderr, "L%d: can't swap, stack too short", line_number);
+		body = (*stack)->next;
+	}
+
+	if (h != NULL && body != NULL)
+	{
+		hv = h->n;
+		bv = body->n;
+		h->n = bv;
+		body->n = hv;
+	}
+	else
+	{
+		fprintf(stderr, "L%u: can't swap, stack too short\n", line_number);
+		free(operators);
+		free_dlist(array);
+		free_stack(*stack);
+		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
-	swap_nodes = (*stack)->next;
-	(*stack)->prev = swap_nodes;
-	(*stack)->next = swap_nodes->next;
-	swap_nodes->prev = NULL;
-	swap_nodes->next = *stack;
-	*stack = swap_nodes;
 }
 /**
  *add_opcode-function to sum the two top elements of the stack
  *@stack: pointer to struct
  *@line_number: number of line of opcode
+ *@operators: pointer to line
+ *@fd: file opened
  *Return: no return value
  */
-void add_opcode(stack_t **stack, unsigned int line_number)
+void add_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
 {
 	int sum;
 
-	if (stack == NULL)
+	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
 	{
-		fprintf(stderr, "L%d: can't add, stack too short", line_number);
+		fprintf(stderr, "L%u: can't add, stack too short\n", line_number);
+		free(operators);
+		free_dlist(array);
+		free_stack(*stack);
+		fclose(fd);
 		exit(EXIT_FAILURE);
 	}
-	(*stack) = (*stack)->next;
-	sum = (*stack)->n + (*stack)->prev->n;
-	(*stack)->n = sum;
-	free((*stack)->prev);
-	(*stack)->prev = NULL;
+	else
+	{
+		(*stack) = (*stack)->next;
+		sum = (*stack)->n + (*stack)->prev->n;
+		(*stack)->n = sum;
+		free((*stack)->prev);
+		(*stack)->prev = NULL;
+	}
 }
 /**
- *nop_opcode-function to do nothing
+ *nop_opcode-function to do nothing(literal, nothing)
  *@stack: pointer to struct
  *@line_number: number of line of opcode
+ *@operators: pointer to line
+ *@fd: file opened
  *Return: no return for thid function
  */
-void nop_opcode(stack_t **stack, unsigned int line_number)
+void nop_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
 {
 	(void)stack;
 	(void)line_number;
+	(void)operators;
+	(void)fd;
 }

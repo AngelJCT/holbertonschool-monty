@@ -1,12 +1,12 @@
 #include "monty.h"
 /**
  *get_op_func-function to select correct operator
- *@operator: pointer to operator
+ *@array: tokens on the command line
  *Return: no return value
  */
-void (*get_op_func(char *operator))(stack_t **stack, unsigned int line_number)
+void (*get_op_func(char **array))(stack_t **, unsigned int, char *, FILE *)
 {
-	static instruction_t op[] = {
+	instruction_t op[] = {
 		{"push", push_opcode},
 		{"pall", pall_opcode},
 		{"pint", pint_opcode},
@@ -21,11 +21,13 @@ void (*get_op_func(char *operator))(stack_t **stack, unsigned int line_number)
 
 	while (index < 8)
 	{
-		if (strcmp(operator, op[index].opcode) == 0)
+		if (strcmp(array[0], op[index].opcode) == 0)
 		{
 			return (op[index].f);
 		}
 		index++;
+		if (index == 7)
+			return (op[index].f);
 	}
 	return (NULL);
 }

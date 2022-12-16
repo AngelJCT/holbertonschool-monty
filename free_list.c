@@ -1,18 +1,17 @@
 #include "monty.h"
 /**
  *free_dlist-function to free doubly linked list
- *@stack: pointer to struct list
+ *@grid: pointer to array
  *Return: no return value
  */
-void free_dlist(stack_t **stack)
+void free_dlist(char **grid)
 {
-	stack_t *current, *next;
+	int i = 0;
 
-	current = *stack;
-	while (current != NULL)
+	while (grid[i] != NULL)
 	{
-		next = current->next;
-		free(current);
+		free(grid[i]);
+		i++;
 	}
-	current = next;
+	free(grid);
 }

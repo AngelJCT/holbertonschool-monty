@@ -3,19 +3,21 @@
  *main-function for entry point
  *@argc: argument count
  *@argv: array of arguments
- *Return: Always 0 success
+ *Return: integer
  */
 int main(int argc, char *argv[])
 {
 	FILE *fd;
-	size_t buf;
-	int fileread, num = 0, line_number = 0;
-	unsigned int i = 0;
-	char *operation = NULL;
-	stack_t **stack_struct;
-	void (*op_get)(stack_t **, unsigned int);
+	size_t buf = 0;
+	char *operators = NULL;
+	stack_t *stack_struct = NULL;
+	static unsigned int line_number;
+	char *new_line = "\n";
 
+	line_number = 0;
 	if (argc != 2)
+		exit(EXIT_FAILURE);
+	if (argv[1] == NULL)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
@@ -26,15 +28,23 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	num = atoi(array[1]);
-	while ((fileread = getline(&operation, &buf, fd)) != -1)
+	while (getline(&operators, &buf, fd) != -1)
 	{
+		if (strcmp(operators, new_line) == 0)
+			continue;
+		if (read_line(operators) == 0)
+			continue;
 		line_number++;
-		array = tokenization(operation, " \n");
-		op_get = get_op_func(array[0]);
-		op_get(stack_struct, i);
+		array = tokenization(operators, " \n");
+		get_op_func(array)(&stack_struct, line_number, operators, fd);
+		free_dlist(array);
+		free(operators);
+		array = NULL;
+		operators = NULL;
+		buf = 0;
 	}
-	free_dlist(stack_struct);
+	free_stack(stack_struct);
+	free(operators);
 	fclose(fd);
-	return (0);
+	exit(0);
 }

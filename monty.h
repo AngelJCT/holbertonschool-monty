@@ -1,5 +1,10 @@
 #ifndef MONTY_H
 #define MONTY_H
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stddef.h>
+#include <unistd.h>
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -27,23 +32,28 @@ struct stack_s *next;
 typedef struct instruction_s
 {
 char *opcode;
-void (*f)(stack_t **stack, unsigned int line_number);
+void (*f)(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
 } instruction_t;
 
-void (*get_op_func(char *s))(stack_t **stack, unsigned int line_number);
+/*function to call function pointer*/
+void (*get_op_func(char **array))(stack_t **, unsigned int, char *, FILE *);
+/*function to tokenize*/
 char **tokenization(char *operation, char *delimiter);
-void push_opcode(stack_t **stack, unsigned int line_number);
-void pall_opcode(stack_t **stack, unsigned int line_number);
-void pint_opcode(stack_t **stack, unsigned int line_number);
-void pop_opcode(stack_t **stack, unsigned int line_number);
-void swap_opcode(stack_t **stack, unsigned int line_number);
-void add_opcode(stack_t **stack, unsigned int line_number);
-void nop_opcode(stack_t **stack, unsigned int line_number);
-void free_dlist(stack_t **stack);
+/*functions for opcode instruction*/
+void push_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
+void pall_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
+void pint_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
+void pop_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
+void swap_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
+void add_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
+void nop_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
+/*function for invalid opcode instruction*/
+void unknown_func(stack_t **stack, unsigned int line_number, char *operators, FILE *fd);
+void free_dlist(char **grid);
+void free_stack(stack_t *h);
+/*functions for edge cases*/
+int read_line(char *operators);
+int read_arguments(char *arguments);
+/*global variable*/
 extern char **array;
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stddef.h>
-#include <unistd.h>
 #endif

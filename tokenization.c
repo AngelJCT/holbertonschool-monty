@@ -8,8 +8,9 @@
 char **tokenization(char *operation, char *delimiter)
 {
 	int i = 0;
-	char *token = NULL, **tokens = malloc(12 * sizeof(char *));
+	char *token = NULL, **tokens = NULL;
 
+	tokens = malloc(sizeof(char *) * 16);
 	if (tokens == NULL)
 		return (NULL);
 
@@ -17,7 +18,7 @@ char **tokenization(char *operation, char *delimiter)
 	while (token != NULL)
 	{
 		tokens[i] = malloc(strlen(token) + 1 * sizeof(char));
-		if (tokens == NULL)
+		if (tokens[i] == NULL)
 			return (NULL);
 		strcpy(tokens[i], token);
 		i++;

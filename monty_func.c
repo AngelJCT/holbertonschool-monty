@@ -3,12 +3,12 @@
  *push_opcode-function to push into the stack
  *@stack: pointer to struct
  *@line_number: number of line of opcode
+ *@operators: pointer to line
+ *@fd: file opened
  */
-void push_opcode(stack_t **stack, unsigned int line_number)
+void push_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
 {
-	int n;
 	stack_t *newNode;
-	(void)line_number;
 
 	newNode = malloc(sizeof(stack_t));
 
@@ -18,49 +18,67 @@ void push_opcode(stack_t **stack, unsigned int line_number)
 		exit(EXIT_FAILURE);
 	}
 
+	if (array[1] == NULL || read_arguments(array[1]))
+	{
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
+		free(operators);
+		free_dlist(array);
+		free(newNode);
+		free_stack(*stack);
+		fclose(fd);
+		exit(EXIT_FAILURE);
+	}
+
+	newNode->n = atoi(array[1]);
 	newNode->next = *stack;
+	newNode->prev = NULL;
 	if (*stack != NULL)
 	{
 		(*stack)->prev = newNode;
 	}
-	newNode->n = n;
 	*stack = newNode;
-	newNode->prev = NULL;
 }
 /**
  *pall_opcode-function to print all operator
  *@stack: pointer to struct
  *@line_number: number of line of opcode
+ *@operators: pointer to line
+ *@fd: file opened
  */
-void pall_opcode(stack_t **stack, unsigned int line_number)
+void pall_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
 {
-	stack_t *tmp;
+	stack_t *h = *stack;
+	(void)operators;
+	(void)fd;
 	(void)line_number;
 
-	if (stack == NULL)
-		exit(EXIT_FAILURE);
-
-	tmp = *stack;
-	while (stack != NULL)
+	while (h != NULL)
 	{
-		printf("%d\n", tmp->n);
-		tmp = tmp->next;
+		printf("%d\n", h->n);
+		h = h->next;
 	}
 }
 /**
  *pint_opcode-function to print the head node
  *@stack: pointer to struct
  *@line_number: number of line of opcode
+ *@operators: pointer to line
+ *@fd: file opened
  */
-void pint_opcode(stack_t **stack, unsigned int line_number)
+void pint_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
 {
-	stack_t *pointer = *stack;
-	(void)line_number;
+	stack_t *h = *stack;
 
-	if (pointer == NULL)
-	{
-		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
-		exit(EXIT_FAILURE);
-	}
-	printf("%d\n", pointer->n);
+		if (h != NULL)
+			printf("%d\n", h->n);
+
+		else if (h == NULL)
+		{
+			fprintf(stderr, "L%u: can't pint, stack empty\n", line_number);
+			free(operators);
+			free_dlist(array);
+			free_stack(*stack);
+			fclose(fd);
+			exit(EXIT_FAILURE);
+		}
 }
