@@ -14,7 +14,7 @@ void (*get_op_func(char **array))(stack_t **, unsigned int, char *, FILE *)
 		{"swap", pop_opcode},
 		{"add", pop_opcode},
 		{"nop", pop_opcode},
-		{NULL, NULL}
+		{NULL, unknown_func}
 	};
 
 	int index = 0;
