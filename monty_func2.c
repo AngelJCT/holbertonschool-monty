@@ -75,24 +75,29 @@ void swap_opcode(stack_t **stack, unsigned int line_number, char *operators, FIL
  */
 void add_opcode(stack_t **stack, unsigned int line_number, char *operators, FILE *fd)
 {
-	int sum;
+	stack_t *head = *stack;
+	stack_t *body;
 
-	if (stack == NULL || *stack == NULL || (*stack)->next == NULL)
+	if (head != NULL)
+	{
+		body = (*stack)->next;
+	}
+
+	if (head != NULL && body != NULL)
+	{
+		body->n = body->n + head->n;
+		*stack = (*stack)->next;
+		(*stack)->prev = NULL;
+		free(head);
+	}
+	else
 	{
 		fprintf(stderr, "L%u: can't add, stack too short\n", line_number);
 		free(operators);
 		free_dlist(array);
 		free_stack(*stack);
-		fclose(fd);
+		fclose(file);
 		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		(*stack) = (*stack)->next;
-		sum = (*stack)->n + (*stack)->prev->n;
-		(*stack)->n = sum;
-		free((*stack)->prev);
-		(*stack)->prev = NULL;
 	}
 }
 /**
